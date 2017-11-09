@@ -16,7 +16,7 @@ f1.n <- 15
 f1.dir <- 'E:/实测数据/JointUrban2003/PWID&Hobo&PNNLmet/DPG_PWIDS/dpg_pwids-1144940441'
 f1.skip <- 61
 f1.vars <- c('Julian.date', 'time', 'speed', 'direction', 'temp', 'RH', 'QC.flag')
-time.start <- as.POSIXct('2003-07-26 23:00:00', tz = 'GMT')
+time.start <- as.POSIXct('2003-07-27 01:00:00', tz = 'GMT')
 time.end <- as.POSIXct('2003-07-27 01:30:00', tz = 'GMT')
 
 ## load data to lists of observations
@@ -29,12 +29,16 @@ for(i in 1:f1.n){
         times <- as.POSIXct(strptime(paste(meta$Julian.date, meta$time, sep=" "), format="%Y%j %H:%M:%S", tz = 'GMT'))
         meta.ts <- zoo(meta[,-(1:2), with = FALSE], order.by = times)
         IOP.ts <- meta.ts[time(meta.ts) >= time.start & time(meta.ts) <= time.end & meta.ts$QC.flag == 0,]
-        Ux <- with(IOP.ts, speed * cos(direction / 180 * 3.1415926))
-        Uy <- with(IOP.ts, speed * sin(direction / 180 * 3.1415926))
+        Ux <- with(IOP.ts, - speed * sinpi(direction / 180))
+        Uy <- with(IOP.ts, - speed * cospi(direction / 180))
         Ux.obs[[i]] <- Ux
         Uy.obs[[i]] <- Uy
 }
 names(Ux.obs) <- paste0('PWIDS', sprintf('%02d',1:f1.n))
 names(Uy.obs) <- paste0('PWIDS', sprintf('%02d',1:f1.n))
 
-## 
+## summarize the obs
+Ux.obs.mean <- sapply(Ux.obs, mean)
+Ux.obs.sd <- sapply(Ux.obs, sd)
+Uy.obs.mean <- sapply(Uy.obs, mean)
+Uy.obs.sd <- sapply(Uy.obs, sd)
