@@ -51,7 +51,11 @@ Ux <- t(sapply(f2s, '[[', 4))
 Uy <- t(sapply(f2s, '[[', 5))
 Uz <- t(sapply(f2s, '[[', 6))
 
-## plots
-
-
+## write
 setwd("~/R/projects/STE_wind_JU2003")
+write.csv(k, 'k_pre.csv')
+write.csv(epsilon, 'epsilon_pre.csv')
+write.csv(Ux, 'Ux_pre.csv')
+write.csv(Uy, 'Uy_pre.csv')
+write.csv(Uz, 'Uz_pre.csv')
+
