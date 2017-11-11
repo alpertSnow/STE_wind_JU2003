@@ -6,8 +6,8 @@
 ###############################################
 
 ## header
-library(data.table)
 library(zoo)
+library(dtplyr) # data.table + dplyer
 
 ## settings
 f1.name.head <- 'dpg_pwids'
@@ -23,6 +23,7 @@ time.end <- as.POSIXct('2003-07-27 01:30:00', tz = 'GMT')
 setwd(f1.dir)
 Ux.obs <- list()
 Uy.obs <- list()
+clock <- progress_estimated(f1.n)
 for(i in 1:f1.n){
         f1.name <- paste0(f1.name.head, sprintf('%02d',i), f1.name.tail)
         meta <- fread(f1.name, skip = f1.skip, header = FALSE, col.names = f1.vars)
@@ -34,6 +35,7 @@ for(i in 1:f1.n){
         Uy <- with(IOP.ts, - speed * cospi(direction / 180))
         Ux.obs[[i]] <- Ux
         Uy.obs[[i]] <- Uy
+        clock$tick()$print()
 }
 names(Ux.obs) <- paste0('PWIDS', sprintf('%02d',1:f1.n))
 names(Uy.obs) <- paste0('PWIDS', sprintf('%02d',1:f1.n))
