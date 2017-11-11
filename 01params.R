@@ -49,6 +49,8 @@ wdirs <- as.numeric(row.names(Ux.pre))
 n.wdir <- length(wdirs)
 
 ## priors for wind direction and relative wind speed
+n.valid.Ux <- length(Ux.mu)
+n.valid.Uy <- length(Uy.mu)
 wdir.Cat <- 1:n.wdir
 p.wdir <- rep(1,n.wdir)
 logWspdUpper <- 2
