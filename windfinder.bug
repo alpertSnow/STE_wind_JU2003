@@ -1,0 +1,16 @@
+model
+{
+    for (i in 1:n.valid.Ux) {
+        wspd.x[i] <- Ux.map[i.wdir, i] * rel.wspd
+        Ux.mu[i] ~ dnorm(wspd.x[i], Ux.tau[i])
+    }
+    for (j in 1:n.valid.Uy) {
+        wspd.y[j] <- Uy.map[i.wdir, j] * rel.wspd
+        Uy.mu[j] ~ dnorm(wspd.y[j], Uy.tau[j])
+    }
+    wspd <- rel.wspd * U.ref
+    Mwdir <- dcat(p.wdir)
+    i.wdir <- wdir.Cat[Mwdir]
+    log.rel.wspd <- dunif(logWspdLower, logWspdUpper)
+    rel.wspd <- 10^log.rel.wspd
+}
