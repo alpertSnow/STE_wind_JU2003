@@ -26,9 +26,10 @@ Uy.obs <- list()
 for(i in 1:f1.n){
         f1.name <- paste0(f1.name.head, sprintf('%02d',i), f1.name.tail)
         meta <- fread(f1.name, skip = f1.skip, header = FALSE, col.names = f1.vars)
+        QC.flag <- sprintf('%04d', meta$QC.flag)
         times <- as.POSIXct(strptime(paste(meta$Julian.date, meta$time, sep=" "), format="%Y%j %H:%M:%S", tz = 'GMT'))
         meta.ts <- zoo(meta[,-(1:2), with = FALSE], order.by = times)
-        IOP.ts <- meta.ts[time(meta.ts) >= time.start & time(meta.ts) <= time.end & meta.ts$QC.flag == 0,]
+        IOP.ts <- meta.ts[time(meta.ts) >= time.start & time(meta.ts) <= time.end & substr(QC.flag,1,2) == '00',]
         Ux <- with(IOP.ts, - speed * sinpi(direction / 180))
         Uy <- with(IOP.ts, - speed * cospi(direction / 180))
         Ux.obs[[i]] <- Ux
