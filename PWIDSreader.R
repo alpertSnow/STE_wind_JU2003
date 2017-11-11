@@ -10,6 +10,7 @@ library(zoo)
 library(dtplyr) # data.table + dplyer
 
 ## settings
+root.dir <- 'E:/R/STE_wind_JU2003'
 f1.name.head <- 'dpg_pwids'
 f1.name.tail <- '-0318000-0321024.dat'
 f1.n <- 15
@@ -39,9 +40,20 @@ for(i in 1:f1.n){
 }
 names(Ux.obs) <- paste0('PWIDS', sprintf('%02d',1:f1.n))
 names(Uy.obs) <- paste0('PWIDS', sprintf('%02d',1:f1.n))
+Ux.obs.dt <- do.call("merge.zoo", Ux.obs)
+Uy.obs.dt <- do.call("merge.zoo", Uy.obs)
 
 ## summarize the obs
 Ux.obs.mean <- sapply(Ux.obs, mean)
 Ux.obs.sd <- sapply(Ux.obs, sd)
 Uy.obs.mean <- sapply(Uy.obs, mean)
 Uy.obs.sd <- sapply(Uy.obs, sd)
+
+## write
+setwd(root.dir)
+write.csv(Ux.obs.dt, 'Ux_obs_PWIDS.csv')
+write.csv(Uy.obs.dt, 'Uy_obs_PWIDS.csv')
+write.csv(Ux.obs.mean, 'Ux_obs_mean_PWIDS.csv')
+write.csv(Uy.obs.mean, 'Uy_obs_mean_PWIDS.csv')
+write.csv(Ux.obs.sd, 'Ux_obs_sd_PWIDS.csv')
+write.csv(Uy.obs.sd, 'Uy_obs_sd_PWIDS.csv')
