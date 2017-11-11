@@ -9,8 +9,9 @@ model
         Uy.mu[j] ~ dnorm(wspd.y[j], Uy.tau[j])
     }
     wspd <- rel.wspd * U.ref
-    Mwdir <- dcat(p.wdir)
+    wdir <- wdirs[i.wdir]
+    Mwdir ~ dcat(p.wdir)
     i.wdir <- wdir.Cat[Mwdir]
-    log.rel.wspd <- dunif(logWspdLower, logWspdUpper)
+    log.rel.wspd ~ dunif(logWspdLower, logWspdUpper)
     rel.wspd <- 10^log.rel.wspd
 }

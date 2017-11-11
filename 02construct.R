@@ -20,10 +20,10 @@ windfinder <- function(){
         wdir <- wdirs[i.wdir]
         # prior
         # wind direction
-        Mwdir <- dcat(p.wdir)
+        Mwdir ~ dcat(p.wdir)
         i.wdir <- wdir.Cat[Mwdir]
         # wind speed
-        log.rel.wspd <- dunif(logWspdLower, logWspdUpper)
+        log.rel.wspd ~ dunif(logWspdLower, logWspdUpper)
         rel.wspd <- 10^log.rel.wspd
 }
 wf.path <- file.path(getwd(), 'windfinder.bug')
