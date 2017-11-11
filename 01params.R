@@ -19,6 +19,7 @@ f.Uy.obs.mean <- 'Uy_obs_mean_PWIDS.csv'
 f.Ux.obs.sd <- 'Ux_obs_sd_PWIDS.csv'
 f.Uy.obs.sd <- 'Uy_obs_sd_PWIDS.csv'
 n.PWIDS <- 15
+i.PWIDS.ignore <- 15 # ignore PWIDS15 for validation
 
 ## read pre and obs data
 Ux.pre <- read.csv(f.Ux.pre, row.names = 1)
@@ -31,18 +32,18 @@ Uy.obs.sd <- read.csv(f.Uy.obs.sd, row.names = 1)
 ## process pre abd obs data
 # delete the NA location in obs
 i.Ux.is.na.PWIDS <- which(is.na(Ux.obs.mean) & is.na(Ux.obs.sd))
-Ux.mu <- Ux.obs.mean[-i.Ux.is.na.PWIDS,]
-Ux.R <- Ux.obs.sd[-i.Ux.is.na.PWIDS,]^2
+Ux.mu <- Ux.obs.mean[-c(i.Ux.is.na.PWIDS,i.PWIDS.ignore),]
+Ux.R <- Ux.obs.sd[-c(i.Ux.is.na.PWIDS,i.PWIDS.ignore),]^2
 Ux.tau <- 1/Ux.R
 
 i.Uy.is.na.PWIDS <- which(is.na(Uy.obs.mean) & is.na(Uy.obs.sd))
-Uy.mu <- Uy.obs.mean[-i.Uy.is.na.PWIDS,]
-Uy.R <- Uy.obs.sd[-i.Uy.is.na.PWIDS,]^2
+Uy.mu <- Uy.obs.mean[-c(i.Uy.is.na.PWIDS,i.PWIDS.ignore),]
+Uy.R <- Uy.obs.sd[-c(i.Uy.is.na.PWIDS,i.PWIDS.ignore),]^2
 Uy.tau <- 1/Uy.R
 
 # delete in pre
-Ux.map <- Ux.pre[,1:n.PWIDS][,-i.Ux.is.na.PWIDS]
-Uy.map <- Uy.pre[,1:n.PWIDS][,-i.Uy.is.na.PWIDS]
+Ux.map <- Ux.pre[,1:n.PWIDS][,-c(i.Ux.is.na.PWIDS,i.PWIDS.ignore)]
+Uy.map <- Uy.pre[,1:n.PWIDS][,-c(i.Uy.is.na.PWIDS,i.PWIDS.ignore)]
 
 # wind direction info
 wdirs <- as.numeric(row.names(Ux.pre))
