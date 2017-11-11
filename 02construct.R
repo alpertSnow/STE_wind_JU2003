@@ -17,6 +17,7 @@ windfinder <- function(){
                 Uy.mu[j] ~ dnorm(wspd.y[j], Uy.tau[j])
         }
         wspd <- rel.wspd * U.ref
+        wdir <- wdirs[i.wdir]
         # prior
         # wind direction
         Mwdir <- dcat(p.wdir)
