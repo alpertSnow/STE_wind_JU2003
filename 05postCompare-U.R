@@ -11,21 +11,21 @@ library(ggplot2)
 library(tmvtnorm)
 
 ## settings
-i.sensor <- 4
+i.sensor <- 8
 n.post <- nrow(mcmc)
 ## calculate posterior predicted velocity at wind sensors
-Ux.mean.post <- Ux.map[mcmc$i.wdir,] * mcmc$wspd / U.ref  # posterior predictive mean Ux
+Ux.mean.post <- Ux.map[mcmc$i.wdir,] * mcmc$wspd / U.ref  # posterior predictive Ux
 Uy.mean.post <- Uy.map[mcmc$i.wdir,] * mcmc$wspd / U.ref
 k.mean.post <- k.map[mcmc$i.wdir,] * mcmc$wspd^2 / U.ref^2 # posterior predictive k
 
-Ux.post <- rnorm(n.post, Ux.mean.post[,i.sensor], sqrt(2/3 * k.mean.post[,i.sensor]))
+Ux.post <- rnorm(n.post, Ux.mean.post[,i.sensor], sqrt(2/3 * k.mean.post[,i.sensor])) # Ux +- sd
 Uy.post <- rnorm(n.post, Uy.mean.post[,i.sensor], sqrt(2/3 * k.mean.post[,i.sensor]))
 
 U.post.i <- data.frame(x = Ux.post, y=Uy.post)
 U.obs.i <- data.frame(x=Ux.obs[,i.sensor], y=Uy.obs[,i.sensor])
 
 ## calculate mean and sd of post.pre and obs
-U.post.mean.i <- t(apply(U.post.i, 2, mean))
+U.post.mean.i <- t(apply(U.post.i, 2, mean)) # posterior mean
 U.post.sd.i <- t(apply(U.post.i, 2, sd))
 U.obs.mean.i <- t(apply(U.obs.i, 2, mean))
 U.obs.sd.i <- t(apply(U.obs.i, 2, sd))
@@ -33,6 +33,10 @@ U.mean_sd.i <- as.data.frame(cbind(U.post.mean.i, U.post.sd.i, U.obs.mean.i, U.o
 colnames(U.mean_sd.i) <- c('postX.mean', 'postY.mean', 'postX.sd', 'postY.sd',
                             'obsX.mean', 'obsY.mean', 'obsX.sd', 'obsY.sd')
 
+## compare post.mean and obs.mean
+U.mean_sd.i$postU <- with(U.mean_sd.i, sqrt(postX.mean^2+postY.mean^2))
+U.mean_sd.i$obsU <- with(U.mean_sd.i, sqrt(obsX.mean^2+obsY.mean^2))
+print(U.mean_sd.i)
 ## plot 
 commonTheme <- list(labs(color="Density",fill="Density",
                         x="RNA-seq Expression",
