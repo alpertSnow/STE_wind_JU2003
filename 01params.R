@@ -24,6 +24,7 @@ i.PWIDS.ignore <- 15 # ignore PWIDS15 for validation
 ## read pre and obs data
 Ux.pre <- read.csv(f.Ux.pre, row.names = 1)
 Uy.pre <- read.csv(f.Uy.pre, row.names = 1)
+k.pre <- read.csv(f.k.pre, row.names = 1)
 Ux.obs.mean <- read.csv(f.Ux.obs.mean, row.names = 1)
 Uy.obs.mean <- read.csv(f.Uy.obs.mean, row.names = 1)
 Ux.obs.sd <- read.csv(f.Ux.obs.sd, row.names = 1)
@@ -44,6 +45,7 @@ Uy.tau <- 1/Uy.R
 # delete in pre
 Ux.map <- Ux.pre[,1:n.PWIDS][,-c(i.Ux.is.na.PWIDS,i.PWIDS.ignore)]
 Uy.map <- Uy.pre[,1:n.PWIDS][,-c(i.Uy.is.na.PWIDS,i.PWIDS.ignore)]
+k.map <- k.pre[,1:n.PWIDS][,-c(i.Uy.is.na.PWIDS,i.PWIDS.ignore)]
 
 # wind direction info
 wdirs <- as.numeric(row.names(Ux.pre))
