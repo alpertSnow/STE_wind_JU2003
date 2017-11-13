@@ -39,6 +39,7 @@ Uy.obs.list <- lapply(Uy.obs[, -i.PWIDS.ignore], as.vector)
 U.obs.list <- mapply(cbind, Ux.obs.list, Uy.obs.list, SIMPLIFY = FALSE)
 L1 <- lapply(U.obs.list, cov, use = 'complete.obs')
 L2 <- lapply(L1, inv)
+# (2, 2, 13)
 U.T.obs.array <- array(unlist(L2), dim = c(nrow(L2[[1]]), ncol(L2[[1]]), length(L2))) # array of inverse covarience matrixs
 
 # delete in pre
@@ -51,7 +52,7 @@ wdirs <- as.numeric(row.names(Ux.pre))
 n.wdir <- length(wdirs)
 
 ## priors for wind direction and relative wind speed
-n.valid.U <- length(U.mu)
+n.valid.U <- ncol(U.mu)
 wdir.Cat <- 1:n.wdir
 p.wdir <- rep(1,n.wdir)
 logWspdUpper <- 2
