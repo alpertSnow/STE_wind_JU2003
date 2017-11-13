@@ -8,14 +8,19 @@
 
 ## header
 library(ggplot2)
+library(tmvtnorm)
 
 ## settings
-
+i.sensor <- 13
+n.post <- nrow(mcmc)
 ## calculate predicted velocity at wind sensors
-Ux.post <- Ux.map[mcmc$i.wdir,] * mcmc$wspd / U.ref
-Uy.post <- Uy.map[mcmc$i.wdir,] * mcmc$wspd / U.ref
-i.sensor <- 1
-U.post.i <- data.frame(x=Ux.post[,i.sensor], y=Uy.post[,i.sensor])
+Ux.mean.post <- Ux.map[mcmc$i.wdir,] * mcmc$wspd / U.ref  # posterior predictive mean Ux
+Uy.mean.post <- Uy.map[mcmc$i.wdir,] * mcmc$wspd / U.ref
+k.mean.post <- k.map[mcmc$i.wdir,] * mcmc$wspd^2 / U.ref^2 # posterior predictive k
+
+Ux.post <- rnorm(n.post, Ux.mean.post[,i.sensor], sqrt(2/3 * k.mean.post[,i.sensor]))
+Uy.post <- rnorm(n.post, Uy.mean.post[,i.sensor], sqrt(2/3 * k.mean.post[,i.sensor]))
+U.post.i <- data.frame(x = Ux.post, y=Uy.post)
 U.obs.i <- data.frame(x=Ux.obs[,i.sensor], y=Uy.obs[,i.sensor])
 ## plot 
 commonTheme = list(labs(color="Density",fill="Density",
