@@ -11,7 +11,7 @@ library(ggplot2)
 library(tmvtnorm)
 
 ## settings
-i.sensor <- 8
+i.sensor <- 3
 n.post <- nrow(mcmc)
 ## calculate posterior predicted velocity at wind sensors
 Ux.mean.post <- Ux.map[mcmc$i.wdir,] * mcmc$wspd / U.ref  # posterior predictive Ux
