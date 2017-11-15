@@ -39,9 +39,9 @@ Ux.obs.list <- lapply(Ux.obs[, -i.PWIDS.ignore], as.vector)
 Uy.obs.list <- lapply(Uy.obs[, -i.PWIDS.ignore], as.vector)
 U.obs.list <- mapply(cbind, Ux.obs.list, Uy.obs.list, SIMPLIFY = FALSE)
 L1 <- lapply(U.obs.list, cov, use = 'complete.obs')
-L2 <- lapply(L1, inv)
+# L2 <- lapply(L1, inv)
 # (2, 2, 13)
-U.T.obs.array <- array(unlist(L2), dim = c(nrow(L2[[1]]), ncol(L2[[1]]), length(L2))) # array of inverse covarience matrixs
+U.cov.obs.array <- array(unlist(L1), dim = c(nrow(L2[[1]]), ncol(L2[[1]]), length(L2))) # array of covarience matrixs
 
 # delete in pre
 Ux.map <- Ux.pre[,1:n.PWIDS][,-i.PWIDS.na][,-i.PWIDS.ignore]
