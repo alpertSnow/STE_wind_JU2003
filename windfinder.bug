@@ -1,12 +1,10 @@
 model
 {
-    for (i in 1:n.valid.Ux) {
+    for (i in 1:n.valid.U) {
         wspd.x[i] <- Ux.map[i.wdir, i] * rel.wspd
-        Ux.mu[i] ~ dnorm(wspd.x[i], Ux.tau[i])
-    }
-    for (j in 1:n.valid.Uy) {
-        wspd.y[j] <- Uy.map[i.wdir, j] * rel.wspd
-        Uy.mu[j] ~ dnorm(wspd.y[j], Uy.tau[j])
+        wspd.y[i] <- Uy.map[i.wdir, i] * rel.wspd
+        U.mu[, i] ~ dmnorm(c(wspd.x[i], wspd.y[i]), U.T.obs.array[, 
+            , i])
     }
     wspd <- rel.wspd * U.ref
     wdir <- wdirs[i.wdir]
