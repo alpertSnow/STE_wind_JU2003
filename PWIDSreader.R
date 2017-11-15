@@ -11,11 +11,11 @@ library(data.table)
 library(dplyr)
 
 ## settings
-root.dir <- 'D:/R/STE_wind_JU2003'
+root.dir <- 'E:/R/STE_wind_JU2003'
 f1.name.head <- 'dpg_pwids'
 f1.name.tail <- '-0318000-0321024.dat'
 f1.n <- 15
-f1.dir <- 'D:/文档/自然通风组/09源辨识/实测数据/JointUrban2003/PWID&Hobo&PNNLmet/DPG_PWIDS/dpg_pwids-1144940441'
+f1.dir <- 'E:/实测数据/JointUrban2003/PWID&Hobo&PNNLmet/DPG_PWIDS/dpg_pwids-1144940441'
 f1.skip <- 61
 f1.vars <- c('Julian.date', 'time', 'speed', 'direction', 'temp', 'RH', 'QC.flag')
 time.start <- as.POSIXct('2003-07-27 01:00:00', tz = 'GMT')
@@ -44,17 +44,7 @@ names(Uy.obs) <- paste0('PWIDS', sprintf('%02d',1:f1.n))
 Ux.obs.dt <- do.call("merge.zoo", Ux.obs)
 Uy.obs.dt <- do.call("merge.zoo", Uy.obs)
 
-## summarize the obs
-Ux.obs.mean <- sapply(Ux.obs, mean)
-Ux.obs.sd <- sapply(Ux.obs, sd)
-Uy.obs.mean <- sapply(Uy.obs, mean)
-Uy.obs.sd <- sapply(Uy.obs, sd)
-
 ## write
 setwd(root.dir)
 write.csv(Ux.obs.dt, 'Ux_obs_PWIDS.csv')
 write.csv(Uy.obs.dt, 'Uy_obs_PWIDS.csv')
-write.csv(Ux.obs.mean, 'Ux_obs_mean_PWIDS.csv')
-write.csv(Uy.obs.mean, 'Uy_obs_mean_PWIDS.csv')
-write.csv(Ux.obs.sd, 'Ux_obs_sd_PWIDS.csv')
-write.csv(Uy.obs.sd, 'Uy_obs_sd_PWIDS.csv')

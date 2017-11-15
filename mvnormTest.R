@@ -21,3 +21,8 @@ g2 <- ggplot() +
         scale_x_continuous(limits = c(-6,6)) +
         scale_y_continuous(limits = c(-6,6))
 plot(g2)
+
+l1 <- lapply(Ux.obs, as.vector)
+l2 <- lapply(Uy.obs, as.vector)
+l12 <- mapply(cbind, l1, l2)
+covMat <- lapply(l12, cov)
