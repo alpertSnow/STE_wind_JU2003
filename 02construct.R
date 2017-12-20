@@ -13,10 +13,10 @@ windfinder <- function(){
                 wspd.y[i] <- Uy.map[i.wdir, i] * rel.wspd
                 wspd.var[i] <- 2/3 * k.map[i.wdir, i] * rel.wspd^2
                 # (2,13) ~ (2,13), (2,2,13)
-                U.cov.array[1, 2, i] <- 2*U.cov.obs.array[1,2,i]
-                U.cov.array[2, 1, i] <- 2*U.cov.obs.array[1,2,i]
-                U.cov.array[1, 1, i] <- 2*U.cov.obs.array[1,1,i] + 2*wspd.var[i]
-                U.cov.array[2, 2, i] <- 2*U.cov.obs.array[2,2,i] + 2*wspd.var[i]
+                U.cov.array[1, 2, i] <- U.cov.obs.array[1,2,i]
+                U.cov.array[2, 1, i] <- U.cov.obs.array[1,2,i]
+                U.cov.array[1, 1, i] <- U.cov.obs.array[1,1,i] + wspd.var[i]
+                U.cov.array[2, 2, i] <- U.cov.obs.array[2,2,i] + wspd.var[i]
                 U.T.array[1:2,1:2,i] <- inverse(U.cov.array[,,i])
                 U.mu[, i] ~ dmnorm(c(wspd.x[i], wspd.y[i]), U.T.array[,,i])
         }
