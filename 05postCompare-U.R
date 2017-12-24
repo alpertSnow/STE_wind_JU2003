@@ -11,7 +11,7 @@ library(ggplot2)
 library(tmvtnorm)
 
 ## settings
-i.sensor <- 3
+i.sensor <- 13
 n.post <- nrow(mcmc)
 ## calculate posterior predicted velocity at wind sensors
 Ux.mean.post <- Ux.map[mcmc$i.wdir,] * mcmc$wspd / U.ref  # posterior predictive Ux
@@ -48,9 +48,9 @@ post.col <- 'red'
 obs.col <- 'blue'
 g1 <- ggplot() + 
         #geom_density2d(data=U.post.i,aes(x, y, colour=..level..)) + 
-        geom_point(data = U.post.i, aes(x, y), col = post.col, alpha = 0.01) +
+        geom_point(data = U.post.i, aes(x, y), col = post.col, shape = 16, alpha = 0.01) +
         scale_colour_gradient(low = "green", high = "red") + 
-        geom_point(data = U.obs.i, aes(x, y), col = obs.col, alpha = 0.5) +
+        geom_point(data = U.obs.i, aes(x, y), col = obs.col, shape = 16, alpha = 0.2) +
         geom_point(data = U.mean_sd.i, aes(postX.mean, postY.mean), size = 3, col = post.col)+
         geom_point(data = U.mean_sd.i, aes(obsX.mean, obsY.mean), size = 3, col = obs.col)+
         geom_errorbar(data = U.mean_sd.i, aes(x = postX.mean, ymin = postY.mean - postY.sd, ymax = postY.mean + postY.sd),col = post.col)+
@@ -59,5 +59,6 @@ g1 <- ggplot() +
         geom_errorbarh(data = U.mean_sd.i, aes(x = obsX.mean, y = obsY.mean, xmin = obsX.mean - obsX.sd, xmax = obsX.mean + obsX.sd),col = obs.col)+
         scale_x_continuous(limits = c(-6,6)) +
         scale_y_continuous(limits = c(-6,6)) +
+        coord_fixed(ratio = 1) +
         commonTheme 
 plot(g1)
