@@ -26,9 +26,9 @@ mcmc <- data.frame(wf.sim$BUGSoutput$sims.list)
 
 ## plot
 # hists of dir 
-hist( wdir.obs[,14], 20, col=rgb(0,0,1,1/4), xlim=c(130,220), freq = FALSE)  # first histogram
-hist( mcmc$wdir, 20, col=rgb(1,0,0,1/4), xlim=c(130,220), freq = FALSE, add=T)  # second
+hist( mcmc$wdir, 15, col=rgb(1,0,0,1/4), xlim=c(130,220), freq = FALSE)  # first histogram
+hist( wdir.obs[,14], 20, col=rgb(0,0,1,1/4), xlim=c(130,220), freq = FALSE, add=T)  # second
 
 # hists of speed
-hist( wspd.obs[,14], 20, col=rgb(0,0,1,1/4), xlim=c(0, 15), freq = FALSE)  # first histogram
-hist( mcmc$wspd, 20, col=rgb(1,0,0,1/4), xlim=c(0, 15), freq = FALSE, add=T)  # second
+hist( mcmc$wspd, 20, col=rgb(1,0,0,1/4), xlim=c(0, 15), freq = FALSE)  # first histogram
+hist( wspd.obs[,14], 20, col=rgb(0,0,1,1/4), xlim=c(0, 15), freq = FALSE, add=T)  # second
